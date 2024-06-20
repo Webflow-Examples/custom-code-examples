@@ -88,10 +88,11 @@ The frontend is a React application that outlines the steps needed to register a
 
 1. **Authorize Your App:** Navigate to `http://localhost:8080` and authorize your app to access your Development Workspace. The app will store your token in a `.db` file and redirect you to the frontend.
 2. **Select a Webflow Site:** Choose your cloned example site from the list of authorized sites.
-3. **Select an Example Script:** Pick a script from the list of examples. The app will register the appropriate scripts for that example to your Webflow site.
-4. **Choose a Page to Apply the Script:** Select the appropriate page from your site where the script will be applied. The page title should match the script example.
-5. **Apply Scripts:** Decide whether to apply the script in the `<head>` tag or in the footer right above the closing `</body>` tag. Apply all necessary scripts and click "Next."
-6. **Publish Site:** Publish the site to see the functionality of your applied scripts. Click the "Visit Page" button to view the example page on your Webflow site with the custom functionality.
+3. **Select an Example Script:** Pick a script from the list of examples.
+4. **Register Scripts:** In this step you'll see a lists of scripts to register. Register each script, and then click "next."
+5. **Choose a Page to Apply the Script:** Select the appropriate page from your site where the script will be applied. The page title should match the script example.
+6. **Apply Scripts:** Decide whether to apply the script in the `<head>` tag or in the footer right above the closing `</body>` tag. Apply all necessary scripts and click "Next."
+7. **Publish Site:** Publish the site to see the functionality of your applied scripts. Click the "Visit Page" button to view the example page on your Webflow site with the custom functionality.
 
 ## Troubleshooting
 

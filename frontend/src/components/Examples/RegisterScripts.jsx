@@ -1,54 +1,47 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Typography, Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Typography, Button, Box, Snackbar, Alert } from "@mui/material";
 import axiosInstance from "../../utils/axiosInstance";
+
+const ScriptItem = ({ script, type, onRegister, isRegistered }) => {
+  return (
+    <Box mb={2}>
+      <Typography variant="body1">{script.displayName || script}</Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => onRegister(script, type)}
+        disabled={isRegistered}
+      >
+        {isRegistered ? "Registered" : "Register"}
+      </Button>
+    </Box>
+  );
+};
 
 const RegisterScripts = ({ selectedSite, example, onNext }) => {
   const [status, setStatus] = useState("");
-  const isRegisteredRef = useRef({}); // Ref to track registration status by siteId and example
-  const isRunning = useRef(false); // Ref to track if the effect is already running
+  const [registeredScripts, setRegisteredScripts] = useState({});
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  useEffect(() => {
-    const registerScripts = async () => {
-      if (!example || !selectedSite) {
-        console.log(
-          "Example or selectedSite not defined, skipping registration."
+  const handleRegisterScript = async (script, type) => {
+    try {
+      let response;
+      if (type === "hosted") {
+        response = await axiosInstance.post(
+          `/custom-code/scripts/${selectedSite.id}/hosted`,
+          {
+            hostedLocation: script,
+            version: "1.1.0",
+            displayName: `${example.name}header`,
+          }
         );
-        return; // Ensure example and selectedSite are defined
-      }
-
-      const key = `${selectedSite.id}-${example.slug}`;
-
-      if (isRegisteredRef.current[key] || isRunning.current) {
-        console.log(
-          `Scripts already registered for ${key} or registration in progress.`
+      } else if (type === "inline") {
+        const inlineResponse = await fetch(
+          `http://localhost:8080/example-scripts/${script}`
         );
-        return; // Prevent duplicate registrations
-      }
-
-      console.log(`Registering scripts for ${key}`);
-      isRunning.current = true;
-
-      try {
-        // Register Hosted Scripts
-        for (const url of example.hostedScripts) {
-          console.log(`Registering hosted script: ${url}`);
-          await axiosInstance.post(
-            `/custom-code/scripts/${selectedSite.id}/hosted`,
-            {
-              hostedLocation: url,
-              version: "1.1.0",
-              displayName: `${example.name}header`,
-            }
-          );
-        }
-
-        // Register Inline Script
-        const response = await fetch(
-          `http://localhost:8080/example-scripts/${example.inlineScript}`
-        );
-        const sourceCode = await response.text();
-        console.log(`Registering inline script: ${example.inlineScript}`);
-        await axiosInstance.post(
+        const sourceCode = await inlineResponse.text();
+        response = await axiosInstance.post(
           `/custom-code/scripts/${selectedSite.id}/inline`,
           {
             sourceCode,
@@ -57,29 +50,61 @@ const RegisterScripts = ({ selectedSite, example, onNext }) => {
             displayName: `${example.name}footer`,
           }
         );
-
-        setStatus("Scripts registered successfully!");
-        isRegisteredRef.current[key] = true; // Mark as registered
-      } catch (error) {
-        console.error("Error registering scripts:", error);
-        setStatus("Failed to register scripts");
-      } finally {
-        isRunning.current = false;
       }
-    };
+      setRegisteredScripts((prev) => ({
+        ...prev,
+        [script]: true,
+      }));
+      setStatus(`Script ${script} registered successfully!`);
+      setSnackbarMessage(`Script ${script} registered successfully!`);
+      setOpenSnackbar(true);
+    } catch (error) {
+      console.error("Error registering script:", error);
+      setStatus(`Failed to register script ${script}`);
+      setSnackbarMessage(`Failed to register script ${script}`);
+      setOpenSnackbar(true);
+    }
+  };
 
-    registerScripts();
-  }, [example, selectedSite]); // Dependencies
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
 
   return (
     <div>
-      <Typography variant="h6">
-        Registering Scripts for {example.name}
-      </Typography>
+      <Typography variant="h6">Register Scripts for {example.name}</Typography>
+      {example.hostedScripts.map((script) => (
+        <ScriptItem
+          key={script}
+          script={script}
+          type="hosted"
+          onRegister={handleRegisterScript}
+          isRegistered={registeredScripts[script]}
+        />
+      ))}
+      <ScriptItem
+        key={example.inlineScript}
+        script={example.inlineScript}
+        type="inline"
+        onRegister={handleRegisterScript}
+        isRegistered={registeredScripts[example.inlineScript]}
+      />
       <Typography>{status}</Typography>
-      <Button onClick={onNext} disabled={!status.includes("successfully")}>
+      <Button
+        onClick={onNext}
+        disabled={!Object.keys(registeredScripts).length}
+      >
         Next
       </Button>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success">
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
