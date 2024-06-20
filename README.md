@@ -2,7 +2,7 @@
 
 ## Project Description
 
-This project is a companion to Webflow's custom-code guide example site. It provides a detailed walkthrough for registering custom JavaScript to a Webflow site and applying it to a specific page.
+This project is a companion to Webflow's [custom-code guide example site](https://webflow.com/made-in-webflow/website/webflow-developers---script-ex-097863). It provides a detailed walkthrough for registering custom JavaScript to a Webflow site and applying it to a specific page.
 
 With this app, you can register and apply custom scripts contributed by the Webflow Developer community, including scripts from [Memberstack](https://www.memberstack.com/) and [Riveflow](https://riveflow.webflow.io/). Once applied and the site is published, you will see the enhanced functionality provided by the custom JavaScript on your page.
 
@@ -56,7 +56,7 @@ The frontend is a React application that outlines the steps needed to register a
 
 ### Setup Guide
 
-1. **Clone the Example Webflow Project**: Clone the Webflow site where scripts will be applied
+1. **Clone the Example Webflow Project**: Clone the [example Webflow site](https://webflow.com/made-in-webflow/website/webflow-developers---script-ex-097863) where scripts will be applied
 
 2. **Clone the Project Repository**:
 
