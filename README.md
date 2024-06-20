@@ -2,9 +2,9 @@
 
 ## Project Description
 
-This project serves as a companion to Webflow's custom-code guide example site, providing a detailed walkthrough for registering custom javascript to a Webflow site and applying it to a specific page.
+This project is a companion to Webflow's custom-code guide example site. It provides a detailed walkthrough for registering custom JavaScript to a Webflow site and applying it to a specific page.
 
-In this walkthrough, you'll choose from a set of code examples that will require you to upload custom scripts to a Example Site. This site is configured to . Once you've uploaded and applied those
+With this app, you can register and apply custom scripts contributed by the Webflow Developer community, including scripts from [Memberstack](https://www.memberstack.com/) and [Riveflow](https://riveflow.webflow.io/). Once applied and the site is published, you will see the enhanced functionality provided by the custom JavaScript on your page.
 
 ## Technologies Used
 
@@ -17,20 +17,19 @@ In this walkthrough, you'll choose from a set of code examples that will require
 
 ## Project Structure
 
-The project consists of two main components: the backend and the frontend. The backend functions as the server, offering API endpoints for interacting with the Webflow API, managing authorization and token storage, and handling custom code operations. The frontend is a React application that guides users through the steps of registering and applying custom code to a page.
+The project consists of two main components: the backend and the frontend. The backend functions as the server, providing API endpoints to interact with the Webflow API, manage authorization and token storage, and handle custom code operations. The frontend is a React application that guides users through the steps of registering and applying custom code to a page.
 
 ```
-backend/
-├── auth/
-├── controllers/
-├── public/
-├── routes/
-├── utils/
-frontend/
-├── public/
-└── src/
-    └── components/
-        └── Examples/
+custom-code-examples/
+├── backend/
+│   ├── auth/
+│   ├── controllers/
+│   ├── public/
+│   ├── routes/
+│   └── utils/
+└── frontend/
+    ├── components/
+    └── utils/
 ```
 
 ### Backend
@@ -45,66 +44,58 @@ The backend serves as the server with API endpoints that connect to the Webflow 
 
 The frontend is a React application that outlines the steps needed to register and apply custom code to a page.
 
+- **Components**: Contains reusable React components used across the application, ensuring modularity and maintainability.
+- **Utils**: Includes utility functions and modules for axios configurations and theming, providing a consistent and streamlined development experience.
+
 ## Setup Instructions
 
 ### Prerequisites
 
-1. Clone the project repository:
-
-   ```sh
-   git clone <repository_url>
-   cd <repository_name>
-   ```
-
-2. Fill out the `.env` file with the necessary environment variables.
-3. Create an Ngrok account and get your Ngrok authentication token.
+1. Ensure you have a Webflow Data Client App in your Webflow Workspace, or a [Site Token](https://university.webflow.com/lesson/intro-to-webflow-apis?topics=cms-dynamic-content#how-to-create-an-API-token) for a specific site. [Read our guide for more information on creating a Data Client App.](https://developers.webflow.com/data/docs/register-an-app)
+2. Create an Ngrok account and obtain your [Ngrok authentication token](https://dashboard.ngrok.com/tunnels/authtokens).
 
 ### Setup Guide
 
-1. Install dependencies:
+1. **Clone the Example Webflow Project**: Clone the Webflow site where scripts will be applied
+
+2. **Clone the Project Repository**:
+
+   ```sh
+   git clone https://github.com/Webflow-Examples/custom-code-examples/tree/main
+   cd custom-code-examples
+   ```
+
+3. **Configure Environment Variables**: Fill out the `.env` file with the necessary environment variables.
+
+   ```env
+   WEBFLOW_CLIENT_ID=YOUR_CLIENT_ID
+   WEBFLOW_CLIENT_SECRET=YOUR_CLIENT_SECRET
+   NGROK_AUTH_TOKEN=YOUR_NGROK_AUTH_TOKEN
+   PORT=YOUR_PORT
+   ```
+
+4. **Install Dependencies and Start the Server**:
 
    ```sh
    npm install
-   ```
-
-2. Start the local development server:
-
-   ```sh
+   npm install-project // This will install the dependencies in the subdirectories
    npm run dev
    ```
 
-## API Details
+5. **Update App's Redirect URI**: Once the server is running, copy the Redirect URI provided. Navigate to your Webflow Workspace dashboard, go to "Apps & Integrations," and update the Redirect URI in your App settings. Save the changes.
 
-### Authentication
+## Usage Guide
 
-The authentication flow uses Webflow OAuth.
-
-### Webflow APIs
-
-We use the Webflow JavaScript SDK to call various Webflow Data v2 APIs:
-
-- List Sites
-- List Pages
-- Get Page Content
-
-## Usage Instructions
-
-1. Register a Webflow Data Client app in your Webflow workspace.
-2. Fill in your own details but use the Ngrok URL provided for the fields below:
-   - **App homepage URL**: `https://xyz123-free.app`
-   - **Redirect URI**: `https://xyz123-free.app/api/auth`
-3. Set the following scopes:
-   - CMS: Read and write
-   - Pages: Read and write
-   - Sites: Read and write
-4. Set the Client ID and Secret ID in the `.env` file:
-   - `WEBFLOW_CLIENT_ID`
-   - `WEBFLOW_CLIENT_SECRET`
-5. Click the "Install" button on your app in the Webflow Dashboard and install it on a test Webflow site.
+1. **Authorize Your App:** Navigate to `http://localhost:8080` and authorize your app to access your Development Workspace. The app will store your token in a `.db` file and redirect you to the frontend.
+2. **Select a Webflow Site:** Choose your cloned example site from the list of authorized sites.
+3. **Select an Example Script:** Pick a script from the list of examples. The app will register the appropriate scripts for that example to your Webflow site.
+4. **Choose a Page to Apply the Script:** Select the appropriate page from your site where the script will be applied. The page title should match the script example.
+5. **Apply Scripts:** Decide whether to apply the script in the `<head>` tag or in the footer right above the closing `</body>` tag. Apply all necessary scripts and click "Next."
+6. **Publish Site:** Publish the site to see the functionality of your applied scripts. Click the "Visit Page" button to view the example page on your Webflow site with the custom functionality.
 
 ## Troubleshooting
 
-- Ensure you have the correct Ngrok URL set in the Webflow dashboard after restarting the local dev server.
+- Ensure the correct Ngrok URL is set in the Webflow dashboard after restarting the local dev server.
 - Verify that the `.env` file contains the correct values for all required environment variables.
 
 ## Contributing
