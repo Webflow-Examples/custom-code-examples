@@ -42,7 +42,7 @@ const InlineScriptUploader = ({ selectedSiteId }) => {
       setSourceCode(customScript); // Use custom script if 'customInline' is selected
     } else {
       try {
-        const scriptUrl = `http://localhost:8080/example-scripts/${selected}`; // Ensure this points to your backend
+        const scriptUrl = `http://localhost:${process.env.PORT}/example-scripts/${selected}`; // Ensure this points to your backend
         console.log("Fetching script from URL:", scriptUrl);
         const response = await fetch(scriptUrl);
         console.log("Response status:", response.status);

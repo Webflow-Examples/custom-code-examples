@@ -78,7 +78,7 @@ The frontend is a React application that outlines the steps needed to register a
 
    ```sh
    npm install
-   npm install-project // This will install the dependencies in the subdirectories
+   npm run install-project // This will install the dependencies in the subdirectories
    npm run dev
    ```
 
