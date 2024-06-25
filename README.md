@@ -51,7 +51,7 @@ The frontend is a React application that outlines the steps needed to register a
 
 ### Prerequisites
 
-1. Ensure you have a Webflow Data Client App in your Webflow Workspace, or a [Site Token](https://university.webflow.com/lesson/intro-to-webflow-apis?topics=cms-dynamic-content#how-to-create-an-API-token) for a specific site. [Read our guide for more information on creating a Data Client App.](https://developers.webflow.com/data/docs/register-an-app)
+1. Ensure you have a Webflow Data Client App in your Webflow Workspace with the following scopes: `sites:read`, `sites:write`, `pages:read`, `pages:write`, `custom_code:read`, and `custom_code:write`, or a [Site Token](https://university.webflow.com/lesson/intro-to-webflow-apis?topics=cms-dynamic-content#how-to-create-an-API-token) for a specific site. [Read our guide for more information on creating a Data Client App.](https://developers.webflow.com/data/docs/register-an-app)
 2. Create an Ngrok account and obtain your [Ngrok authentication token](https://dashboard.ngrok.com/tunnels/authtokens).
 
 ### Setup Guide
