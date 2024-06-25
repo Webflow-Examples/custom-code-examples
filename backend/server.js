@@ -54,13 +54,13 @@ const startServer = async () => {
     // Create a table to output in the CLI
     const table = new Table({
       head: ["Location", "URL"], // Define column headers
-      colWidths: [30, 60], // Define column widths
+      colWidths: [20, 80], // Define column widths
     });
 
     // Add URL information to the table
     table.push(
-      ["Development URL (Frontend)", "http://localhost:3000"],
-      ["Development URL (Backend)", `http://localhost:${PORT}`]
+      ["Backend", `http://localhost:${PORT}`],
+      ["Frontend", "http://localhost:3000"]
     );
 
     // If using an App, also add the Redirect URI to the table
